@@ -57,10 +57,10 @@ tcb cloudrun deploy -e prod-d3gzazt6u4f46110d -s flask-rhx3 --port 80
 
 ```dotenv
 APP_ENV=production
-DB_HOST=<MySQL内网地址>
+DB_HOST=10.7.105.24
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=<重置后的数据库密码>
+DB_PASSWORD=SrQw9fT4
 DB_NAME=flask_demo
 DB_CONNECT_MAX_ATTEMPTS=12
 DB_CONNECT_RETRY_SECONDS=5
