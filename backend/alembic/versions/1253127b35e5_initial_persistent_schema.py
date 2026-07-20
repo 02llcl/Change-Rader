@@ -27,8 +27,8 @@ def upgrade() -> None:
     sa.Column('previous_close', sa.Numeric(precision=18, scale=8), nullable=True),
     sa.Column('change_percent', sa.Numeric(precision=18, scale=8), nullable=False),
     sa.Column('source', sa.String(length=32), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('index_code', 'trade_date', 'source', name='uq_index_quote_code_date_source')
     )
@@ -46,8 +46,8 @@ def upgrade() -> None:
     sa.Column('effective_from', sa.Date(), nullable=False),
     sa.Column('effective_to', sa.Date(), nullable=True),
     sa.Column('enabled', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('code', 'effective_from', name='uq_rule_code_effective_from')
     )
@@ -63,8 +63,8 @@ def upgrade() -> None:
     sa.Column('benchmark_code', sa.String(length=16), nullable=False),
     sa.Column('benchmark_name', sa.String(length=64), nullable=False),
     sa.Column('price_limit_type', sa.String(length=32), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('symbol')
     )
     op.create_index(op.f('ix_security_master_board'), 'security_master', ['board'], unique=False)
@@ -74,8 +74,8 @@ def upgrade() -> None:
     sa.Column('user_key', sa.String(length=64), nullable=False),
     sa.Column('symbol', sa.String(length=6), nullable=False),
     sa.Column('enabled', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.ForeignKeyConstraint(['symbol'], ['security_master.symbol'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_key', 'symbol', name='uq_alert_user_symbol')
@@ -103,8 +103,8 @@ def upgrade() -> None:
     sa.Column('deviation', sa.Numeric(precision=18, scale=8), nullable=False),
     sa.Column('threshold', sa.Numeric(precision=18, scale=8), nullable=False),
     sa.Column('metrics', sa.JSON(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.ForeignKeyConstraint(['rule_version_id'], ['rule_version.id'], ),
     sa.ForeignKeyConstraint(['symbol'], ['security_master.symbol'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id'),
@@ -128,8 +128,8 @@ def upgrade() -> None:
     sa.Column('source', sa.String(length=32), nullable=False),
     sa.Column('source_time', sa.DateTime(timezone=True), nullable=True),
     sa.Column('quality_status', sa.String(length=16), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.ForeignKeyConstraint(['symbol'], ['security_master.symbol'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('symbol', 'trade_date', 'source', name='uq_daily_quote_symbol_date_source')
@@ -140,8 +140,8 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_key', sa.String(length=64), nullable=False),
     sa.Column('symbol', sa.String(length=6), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('CURRENT_TIMESTAMP'), nullable=False),
     sa.ForeignKeyConstraint(['symbol'], ['security_master.symbol'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_key', 'symbol', name='uq_watchlist_user_symbol')

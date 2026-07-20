@@ -55,3 +55,5 @@ def test_initial_migration_compiles_for_mysql(monkeypatch: pytest.MonkeyPatch, c
     assert "CREATE TABLE anomaly_event" in sql
     assert "CREATE TABLE watchlist" in sql
     assert "CREATE TABLE alert_setting" in sql
+    assert "DEFAULT (CURRENT_TIMESTAMP)" not in sql
+    assert "DEFAULT CURRENT_TIMESTAMP" in sql
