@@ -45,6 +45,8 @@
 - [x] Repository 接口与 PostgreSQL/SQLite 实现
 - [x] Redis 榜单、市场状态及过期策略
 - [x] SQLite 持久化与内存缓存自动化测试
+- [x] CloudBase MySQL 生产配置、连接等待与 Alembic 自动建表
+- [x] MySQL 方言迁移 SQL 编译测试与生产 SQLite 防回退
 - [ ] 安装 Docker 后执行 PostgreSQL、Redis 容器级验收
 
 验收：服务重启后自选仍存在；榜单可从 Redis 快速读取；缓存丢失后能从数据库恢复。
@@ -98,7 +100,7 @@
 - [x] CloudBase 云托管 Dockerfile、动态端口和构建忽略配置
 - [x] 小程序 `wx.cloud.callContainer` 请求适配
 - [x] CloudBase OpenID 身份请求头适配
-- [ ] CloudBase 环境、MySQL 和云托管服务实际创建
+- [x] CloudBase 环境、MySQL 和云托管服务实际创建
 - [ ] 云端镜像构建与接口验收
 - [ ] Nginx、HTTPS、健康检查
 - [ ] 国内服务器、域名和备案

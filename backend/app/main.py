@@ -27,7 +27,7 @@ def create_app(settings_override: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(application: FastAPI):
-        database = Database(settings.database_url)
+        database = Database(settings.sqlalchemy_url())
         application.state.database = database
         application.state.cache = build_cache(settings)
         application.state.settings = settings
@@ -91,6 +91,7 @@ def create_app(settings_override: Settings | None = None) -> FastAPI:
             "status": overall,
             "service": "deviation-alert-api",
             "database": database_status,
+            "database_engine": request.app.state.database.backend,
             "cache": cache_status,
             "market_sync": market_sync_status,
         }

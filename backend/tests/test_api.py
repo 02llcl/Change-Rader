@@ -31,6 +31,7 @@ def test_health(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
     assert response.json()["database"] == "ok"
+    assert response.json()["database_engine"] == "sqlite"
     assert response.json()["cache"] == "ok"
     assert response.json()["market_sync"] == "idle"
 

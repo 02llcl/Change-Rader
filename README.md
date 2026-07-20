@@ -96,9 +96,19 @@ python -m venv .venv
 
 真实行情依赖公网访问。若电脑设置了不可用的系统代理，默认配置会绕过该代理直连新浪接口；可在 `.env` 中用 `MARKET_HTTP_USE_ENVIRONMENT_PROXY=true` 改回跟随系统代理。若只想运行离线接口测试，可设置 `MARKET_DATA_PROVIDER=database_demo`。
 
-## PostgreSQL 与 Redis 模式
+## CloudBase MySQL 与本地开发数据库
 
-安装 Docker Desktop 后，在仓库根目录执行：
+CloudBase 生产环境使用 MySQL，服务版本需要配置：
+
+- `APP_ENV=production`
+- `DB_HOST`、`DB_PORT`、`DB_USER`、`DB_PASSWORD`、`DB_NAME`
+
+生产模式如果没有完整的 MySQL 配置会直接启动失败，不会静默使用 SQLite。容器启动时先检查
+数据库连通性，再由 Alembic 自动创建或升级业务表。完整配置见
+[CLOUDBASE_DEPLOY.md](CLOUDBASE_DEPLOY.md)。
+
+本地开发默认使用 SQLite；如需运行 PostgreSQL 与 Redis 联调环境，安装 Docker Desktop 后
+在仓库根目录执行：
 
 ```powershell
 docker compose up --build
@@ -108,7 +118,9 @@ docker compose up --build
 
 环境变量示例见 `backend/.env.example`：
 
-- `DATABASE_URL`：数据库连接地址。
+- `DATABASE_URL`：本地 SQLite、PostgreSQL 或完整 MySQL 连接地址。
+- `DB_HOST`、`DB_PORT`、`DB_USER`、`DB_PASSWORD`、`DB_NAME`：CloudBase MySQL
+  分项连接配置，设置后优先于 `DATABASE_URL`。
 - `CACHE_BACKEND`：`memory`、`redis` 或 `null`。
 - `REDIS_URL`：Redis 连接地址。
 - `AUTO_CREATE_TABLES`：仅自动化测试开启；日常开发和生产统一使用 Alembic，因此保持关闭。

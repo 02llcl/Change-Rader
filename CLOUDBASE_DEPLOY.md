@@ -5,7 +5,7 @@
 ```text
 微信小程序
   └─ wx.cloud.callContainer
-      └─ CloudBase 云托管：deviation-alert-api
+      └─ CloudBase 云托管：flask-rhx3
           ├─ FastAPI + SQLAlchemy + Alembic
           ├─ CloudBase MySQL（持久化）
           └─ 新浪/东方财富公开网页行情适配器
@@ -31,7 +31,7 @@ MVP 不单独部署 Redis，`CACHE_BACKEND` 使用 `memory`。当前用户量下
 
 | 配置 | 值 |
 | --- | --- |
-| 服务名 | `deviation-alert-api` |
+| 服务名 | `flask-rhx3` |
 | 代码目录 | 仓库中的 `backend` 文件夹 |
 | Dockerfile | `backend/Dockerfile` |
 | 服务端口 | `80` |
@@ -46,7 +46,7 @@ CloudBase CLI 后执行：
 ```powershell
 cd backend
 tcb login
-tcb cloudrun deploy -e <环境ID> -s deviation-alert-api --port 80
+tcb cloudrun deploy -e prod-d3gzazt6u4f46110d -s flask-rhx3 --port 80
 ```
 
 本地没有 Docker 不影响云端从 Dockerfile 构建。
@@ -57,7 +57,13 @@ tcb cloudrun deploy -e <环境ID> -s deviation-alert-api --port 80
 
 ```dotenv
 APP_ENV=production
-DATABASE_URL=mysql+pymysql://<用户名>:<URL编码后的密码>@<MySQL内网地址>:3306/<数据库名>?charset=utf8mb4
+DB_HOST=<MySQL内网地址>
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=<重置后的数据库密码>
+DB_NAME=flask_demo
+DB_CONNECT_MAX_ATTEMPTS=12
+DB_CONNECT_RETRY_SECONDS=5
 CACHE_BACKEND=memory
 AUTO_CREATE_TABLES=false
 SEED_DEMO_DATA=true
@@ -73,13 +79,20 @@ MARKET_HTTP_USE_ENVIRONMENT_PROXY=false
 
 说明：
 
+- `DB_HOST` 必须填写数据库设置页中的“内网地址”，不要填写数据库管理网页地址。
+- 代码也兼容模板可能注入的 `MYSQL_HOST`、`MYSQL_PORT`、`MYSQL_USER`、
+  `MYSQL_PASSWORD` 和 `MYSQL_DATABASE`；推荐在服务配置中显式使用上面的 `DB_*` 名称。
+- 生产环境缺少任一 MySQL 参数时后端会拒绝启动，不会回退到 SQLite。
 - 第一次部署保持 `REQUIRE_WECHAT_IDENTITY=false`，方便通过公网域名检查接口。
 - `SEED_DEMO_DATA=true` 仅用于冷启动占位；真实行情同步完成后会自动删除占位事件。
 - 如果新浪接口在云端不可达，只需把 `MARKET_DATA_PROVIDER` 改为 `eastmoney` 后发布新版本。
-- 数据库密码如果含有 `@`、`:`、`/`、`#` 等字符，必须进行 URL 编码。
+- `DB_*` 分项配置会安全处理密码中的 `@`、`:`、`/`、`#`，无需手工 URL 编码。
 - 密码只能配置在 CloudBase 环境变量中，不得写入 Git。
 
-容器启动时会先执行 `alembic upgrade head`，随后启动 FastAPI。
+容器启动时会先等待 MySQL 可连接，再执行 `alembic upgrade head`，最后启动 FastAPI。
+Alembic 会在现有 `flask_demo` 库中自动创建 `alembic_version`、`security_master`、
+`daily_quote`、`index_daily_quote`、`rule_version`、`anomaly_event`、`watchlist` 和
+`alert_setting`。模板已有的 `Counters` 表不会被修改或删除。
 
 ## 4. 首次验证
 
@@ -99,6 +112,7 @@ https://<云托管默认域名>/api/v1/anomalies/confirmed
   "status": "ok",
   "service": "deviation-alert-api",
   "database": "ok",
+  "database_engine": "mysql",
   "cache": "ok",
   "market_sync": "idle"
 }
@@ -117,7 +131,7 @@ module.exports = {
   API_MODE: 'cloudbase',
   LOCAL_API_BASE_URL: 'http://127.0.0.1:8000/api/v1',
   CLOUDBASE_ENV_ID: '<实际环境ID>',
-  CLOUDBASE_SERVICE_NAME: 'deviation-alert-api',
+  CLOUDBASE_SERVICE_NAME: 'flask-rhx3',
 };
 ```
 
