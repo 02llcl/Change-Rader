@@ -1,7 +1,80 @@
 {
   "description": "异动偏离预警器微信小程序 MVP",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "backend"
+      },
+      {
+        "type": "folder",
+        "value": "assets"
+      },
+      {
+        "type": "folder",
+        "value": ".git"
+      },
+      {
+        "type": "folder",
+        "value": ".agents"
+      },
+      {
+        "type": "folder",
+        "value": ".codex"
+      },
+      {
+        "type": "folder",
+        "value": "node_modules"
+      },
+      {
+        "type": "folder",
+        "value": ".pytest_cache"
+      },
+      {
+        "type": "folder",
+        "value": ".venv"
+      },
+      {
+        "type": "folder",
+        "value": "__pycache__"
+      },
+      {
+        "type": "folder",
+        "value": ".idea"
+      },
+      {
+        "type": "folder",
+        "value": ".vscode"
+      },
+      {
+        "type": "file",
+        "value": ".gitignore"
+      },
+      {
+        "type": "file",
+        "value": "README.md"
+      },
+      {
+        "type": "file",
+        "value": "ROADMAP.md"
+      },
+      {
+        "type": "file",
+        "value": "PRODUCT_TECH_DESIGN.md"
+      },
+      {
+        "type": "file",
+        "value": "CLOUDBASE_DEPLOY.md"
+      },
+      {
+        "type": "file",
+        "value": "compose.yaml"
+      },
+      {
+        "type": "file",
+        "value": "project.private.config.json"
+      }
+    ],
     "include": []
   },
   "setting": {
@@ -27,7 +100,7 @@
     "postcss": false,
     "compileWorklet": false,
     "uglifyFileName": false,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
     "minifyWXML": true,
