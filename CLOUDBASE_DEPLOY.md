@@ -43,21 +43,13 @@ MVP 不单独部署 Redis，`CACHE_BACKEND` 使用 `memory`。当前用户量下
 首次上线可以在 CloudBase 控制台选择“本地代码部署”，上传 `backend` 文件夹。也可以安装
 CloudBase CLI 后执行：
 
-```powershell
-cd backend
-tcb login
-tcb cloudrun deploy -e prod-d3gzazt6u4f46110d -s flask-rhx3 --port 80
-```
-
-本地没有 Docker 不影响云端从 Dockerfile 构建。
-
 ## 3. 配置环境变量
 
 在云托管服务版本配置中填写：
 
 ```dotenv
 APP_ENV=production
-DB_HOST=10.7.105.24
+DB_HOST=10.7.105.246
 DB_PORT=3306
 DB_USER=root
 DB_PASSWORD=SrQw9fT4
@@ -68,7 +60,7 @@ CACHE_BACKEND=memory
 AUTO_CREATE_TABLES=false
 SEED_DEMO_DATA=true
 INTERNAL_USER_KEY=internal-demo
-WECHAT_APPID=<小程序AppID>
+WECHAT_APPID=wxf3710b03abc8aaaa
 REQUIRE_WECHAT_IDENTITY=false
 MARKET_DATA_PROVIDER=sina
 MARKET_SYNC_INTERVAL_SECONDS=15
